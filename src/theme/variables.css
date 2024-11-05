@@ -1,0 +1,10 @@
+/* For information on how to create your own theme, please see:
+http://ionicframework.com/docs/theming/ */
+:root.md {
+    --poppins-font: "Poppins", sans-serif;
+    --montserat-font: "Montserrat", sans-serif;
+    --ion-background-color: #D9D9D9;
+    --app-red: #FF4B4B;
+    --app-pressed-red: #D73E3E;
+}
+
