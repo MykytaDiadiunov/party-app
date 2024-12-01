@@ -8,6 +8,16 @@ $montserat-font: "Montserrat", sans-serif;
     font-family: $poppins-font;
 }
 
+img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.mb-10 {
+    margin-bottom: 10px;
+}
+
 .mb-15 {
     margin-bottom: 15px;
 }
@@ -28,3 +38,18 @@ $montserat-font: "Montserrat", sans-serif;
     text-align: center;
 }
 
+.fz-24 {
+    font-size: 24px;
+}
+
+ion-toolbar {
+    --background: var(--app-red)
+}
+
+ion-title {
+    color: white;
+    padding: 0;
+    text-align: center;
+    font-weight: 600;
+    font-size: 24px;
+}

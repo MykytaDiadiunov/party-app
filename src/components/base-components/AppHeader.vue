@@ -1,6 +1,9 @@
 <template>
 <ion-header>
   <ion-toolbar>
+    <div v-if="backButton" @click="emit('backButtonClick')" class="back-icon">
+      <img src="../../../public/icons/arrowW2.png" alt="back_img">
+    </div>
     <ion-title>{{ text }}</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -8,25 +11,33 @@
 
 <script setup lang="ts">
 import { IonHeader } from '@ionic/vue';
-import { defineProps } from 'vue';
+import { defineProps, defineEmits } from 'vue';
 
 const props = defineProps<{
-  text: string
+  text: string,
+  backButton?: boolean
 }>()
 
+const emit = defineEmits<{
+  (e: 'backButtonClick'): void
+}>()
 </script>
 
 <style scoped lang="scss">
+.back-icon {
+  position: absolute;
+  left: 0px;
+  top: 50%;
+  z-index: 999999;
+  width: 35px;
+  height: 35px;
+  padding: 5px;
+  transform: scaleX(-1) translateY(-50%);
 
-ion-toolbar {
-  --background: var(--app-red)
-}
-
-ion-title {
-  color: white;
-  padding: 0;
-  text-align: center;
-  font-weight: 600;
-  font-size: 24px;
+  img {
+    width: 100%;
+    height: 100%;
+  }
 }
 </style>
+

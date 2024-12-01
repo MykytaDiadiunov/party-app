@@ -1,20 +1,40 @@
 <template>
   <div class="button__wrapper">
-    <button>{{ title }}</button>
+    <button ref="buttonRef">{{ title }}</button>
   </div>
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
+import { defineProps, onMounted, ref } from 'vue';
+
+const buttonRef = ref<HTMLButtonElement>()
 
 const props = defineProps<{
-    title: string
+  title: string,
+  fontSize?: number,
+  color?: string,
+  backgroundColor?: string,
 }>()
+
+onMounted(() => {
+  if (props.fontSize) {
+    buttonRef.value?.style.setProperty("font-size", `${props.fontSize}px`)
+  }
+
+  if (props.backgroundColor) {
+    buttonRef.value?.style.setProperty("background-color", props.backgroundColor)
+  }
+
+  if (props.color) {
+    buttonRef.value?.style.setProperty("color", props.color)
+  }
+})
 
 </script>
 
 <style scoped lang="scss">
 .button__wrapper {
+  width: 100%;
   button {
     background-color: var(--app-red);
     color: #fff;

@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-// @ts-ignore
+// @ts-nocheck
 import AppHeader from '@/components/base-components/AppHeader.vue';
 import { IonPage, IonContent } from '@ionic/vue'
 import { defineProps, onMounted, ref } from 'vue';

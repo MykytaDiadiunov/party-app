@@ -1,0 +1,1 @@
+export const IMG_BASE_URL: string = 'http://localhost:8081/static/'
