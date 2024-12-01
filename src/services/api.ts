@@ -1,3 +1,5 @@
+import { CurrentSessionUser } from '@/models'
+import { useTokenStore, useUserStore } from '@/stores'
 import type {
     AxiosInstance,
     AxiosRequestConfig,
@@ -9,7 +11,9 @@ import type {
  
  export const apiService = () => {
 
-    const apiUrl: string = 'https://127.0.0.1/api/v1'
+    const apiUrl: string = 'http://localhost:8081/api/v1'
+
+    const tokenStore = useTokenStore()
  
     const instance: AxiosInstance = axios.create({
        baseURL: apiUrl,
@@ -20,11 +24,11 @@ import type {
     } as CreateAxiosDefaults)
  
     instance.interceptors.request.use(async (config: InternalAxiosRequestConfig) => {
-    //    const token: string | null = 
+       const token: string | null = tokenStore.getToken()
  
-    //    if (token) {
-    //       config.headers!['Authorization'] = `Bearer ${token}`
-    //    }
+       if (token) {
+         config.headers!['Authorization'] = `Bearer ${token}`
+       }
  
        return config
     })

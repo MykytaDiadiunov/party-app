@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router';
 
 import { IonicVue } from '@ionic/vue';
+import { createPinia } from 'pinia';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/vue/css/core.css';
@@ -29,10 +30,12 @@ import '@ionic/vue/css/display.css';
 
 /* @import '@ionic/vue/css/palettes/dark.always.css'; */
 /* @import '@ionic/vue/css/palettes/dark.class.css'; */
-import '@ionic/vue/css/palettes/dark.system.css';
+// import '@ionic/vue/css/palettes/dark.system.css';
+
+import i18n from '@/i18n'
 
 /* Theme variables */
-import './theme/variables.css';
+import '@/theme/variables.css';
 import '@/theme/styles.scss'
 
 import MyInput from '@/components/base-components/UI/AppInput.vue'
@@ -40,7 +43,9 @@ import MyButton from '@/components/base-components/UI/AppButton.vue'
 
 const app = createApp(App)
   .use(IonicVue)
-  .use(router);
+  .use(router)
+  .use(createPinia())
+  .use(i18n as any)
 
 app.component("my-input", MyInput)
 app.component("my-button", MyButton)

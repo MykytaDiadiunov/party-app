@@ -1,0 +1,28 @@
+{
+    "LANGUAGES": {
+        "ENGLISH": "English"
+    },
+    "NO_ITEMS_TEXTS": {
+        "NO_PARTIES": "Paties dont exists yet!",
+        "NO_FAVORITES": "No one in favorites!"
+    },
+    "TABS": {
+        "PARTIES": "Parties",
+        "PROFILE": "Profile",
+        "FAVORITES": "Favorites",
+        "MY_PARTIES": "My Parties"
+    },
+    "LABELS": {
+        "TITLE": "Title",
+        "DESCRIPTION": "Description",
+        "START_DATE": "Start date",
+        "CREATOR": "Creator"
+    },
+    "BTNS": {
+        "JOIN": "Join",
+        "LEAVE": "Leave",
+        "FOLLOW": "Follow",
+        "UNFOLLOW": "Unfollow",
+        "CREATE": "Create"
+    }
+}   
