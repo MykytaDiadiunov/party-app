@@ -17,7 +17,7 @@ import BaseLayout from '@/layouts/BaseLayout.vue';
 import AppUserItem from '@/components/users-components/AppUserItem.vue';
 import AppNoItems from '@/components/base-components/AppNoItems.vue';
 import { useAppI18n } from '@/i18n'; 
-import { onIonViewWillEnter } from '@ionic/vue';
+import { onIonViewWillEnter, IonRefresher, IonRefresherContent } from '@ionic/vue';
 import { requestService, routingService } from '@/services';
 import { FavoritesResponse } from '@/models';
 import { ref } from 'vue';
@@ -53,5 +53,6 @@ function routToCreatorProfile(id: number) {
 <style scoped lang="scss">
 .item  {
   margin-bottom: 15px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 </style>

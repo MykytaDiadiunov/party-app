@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import { IonHeader } from '@ionic/vue';
+import { IonHeader, IonToolbar, IonTitle } from '@ionic/vue';
 import { defineProps, defineEmits } from 'vue';
 
 const props = defineProps<{
