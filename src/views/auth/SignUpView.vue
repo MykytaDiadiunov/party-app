@@ -2,24 +2,25 @@
   <auth-layout header-text="Sign Up">
     <main class="main">
       <div class="content__wrapper">
-        <my-input v-model="nameInputModel" class="mb-15" place-holder="Name"/>
-        <my-input v-model="emailInputModel" class="mb-15" place-holder="Email"/>
-        <my-input v-model="passwordInputModel" class="mb-15" place-holder="Password" type="password"/>
-        <my-input v-model="repeatPasswordInputModel" class="mb-15" place-holder="Repeat Password" type="password"/>
-        <div class="help-text">Already have an account? <a @click="routing.toSignIn">Sign in!</a></div>
-        <my-button class="px-30" @click="submit" title="Sign Up"/>
+        <my-input v-model="nameInputModel" class="mb-15" :placeholder="translate('PLACEHOLDERS.NAME')"/>
+        <my-input v-model="emailInputModel" class="mb-15" :placeholder="translate('PLACEHOLDERS.EMAIL')"/>
+        <my-input v-model="passwordInputModel" class="mb-15" :placeholder="translate('PLACEHOLDERS.PASSWORD')" type="password"/>
+        <my-input v-model="repeatPasswordInputModel" class="mb-15" :placeholder="translate('PLACEHOLDERS.REPEAT_PASSWORD')" type="password"/>
+        <div class="help-text">Already have an account? <a @click="routing.toSignIn">{{ translate('BTNS.LOGIN') }}!</a></div>
+        <my-button class="px-30" @click="submit" :title="translate('BTNS.SIGN_UP')"/>
       </div>
     </main>
   </auth-layout>
 </template>
 
 <script setup lang="ts">
-// @ts-ignore
 import AuthLayout from '@/layouts/AuthLayout.vue'; 
 import { CurrentSessionUser, RegisterRequest } from '@/models';
 import { requestService, routingService } from '@/services';
 import { useTokenStore, useUserStore } from '@/stores';
 import { ref } from 'vue';
+import { useAppI18n } from '@/i18n';
+const { translate } = useAppI18n() 
 
 const routing = routingService()
 const requests = requestService() 

@@ -2,22 +2,23 @@
   <auth-layout header-text="Sign In">
     <main class="main">
       <div class="content__wrapper">
-        <my-input v-model="emailInputModel" class="mb-15" place-holder="Email"/>
-        <my-input v-model="passwordInputModel" class="mb-15" place-holder="Password" type="password"/>
-        <div class="help-text">Don't have an account? <a @click="routing.toSignUp">Sign up!</a></div>
-        <my-button class="px-30" @click="submit" title="Login"/>
+        <my-input v-model="emailInputModel" class="mb-15" :placeholder="translate('PLACEHOLDERS.EMAIL')"/>
+        <my-input v-model="passwordInputModel" class="mb-15" :placeholder="translate('PLACEHOLDERS.PASSWORD')" type="password"/>
+        <div class="help-text">Don't have an account? <a @click="routing.toSignUp">{{ translate('BTNS.SIGN_UP') }}!</a></div>
+        <my-button class="px-30" @click="submit" :title="translate('BTNS.LOGIN')"/>
       </div>
     </main>
   </auth-layout>
 </template>
 
 <script setup lang="ts">
-// @ts-ignore
 import AuthLayout from '@/layouts/AuthLayout.vue'; 
 import { CurrentSessionUser, LoginRequest } from '@/models';
 import { requestService, routingService } from '@/services';
 import { useTokenStore, useUserStore } from '@/stores';
 import { onMounted, ref } from 'vue';
+import { useAppI18n } from '@/i18n';
+const { translate } = useAppI18n() 
 
 const routing = routingService()
 const requests = requestService()

@@ -14,21 +14,24 @@
       </div>
       <div class="btn__container">
         <div class="btn__wrapper">
-          <my-button :title="translate('BTNS.CREATE')"/>
+          <my-button @click="openCreatePartyModal" :title="translate('BTNS.CREATE')"/>
         </div>
       </div>
     </app-no-items>
+
+    <app-create-party-modal @modal-close="closeCreatePartyModal" @party-created="onPartyCreated" :is-open="createPartyModalIsOpen"/>
 
   </base-layout>
 </template>
 
 <script setup lang="ts">
+import AppCreatePartyModal from '@/components/my-parties-components/AppCreatePartyModal.vue';
 import BaseLayout from '@/layouts/BaseLayout.vue';
 import AppNoItems from '@/components/base-components/AppNoItems.vue';
 import { useAppI18n } from '@/i18n'; 
 import { ref } from 'vue';
 import { CurrentUser, PartiesResponse } from '@/models';
-import { onIonViewWillEnter } from '@ionic/vue';
+import { onIonViewWillEnter, IonRefresher, IonRefresherContent } from '@ionic/vue';
 import { requestService } from '@/services';
 import { useUserStore } from '@/stores';
 
@@ -37,26 +40,30 @@ const { translate } = useAppI18n()
 const request = requestService()
 
 const userStore = useUserStore()
-const { getCurrentUserData } = userStore
+const { getCurrentUserData, populateUser } = userStore
 
 const myParties = ref<PartiesResponse>()
+const currentUser = ref<CurrentUser | null>(null)
+
+const createPartyModalIsOpen = ref<boolean>(false)
 
 onIonViewWillEnter(async () => {
   try {
-    const currentUser: CurrentUser | null = getCurrentUserData()
-    if (currentUser) {
-      myParties.value = await request.getPartiesByCreatorId(currentUser.id, 1)
-      console.log(myParties.value)
+    currentUser.value = getCurrentUserData()
+    if (currentUser.value) {
+      myParties.value = await request.getPartiesByCreatorId(currentUser.value.id, 1)
     }
 
-  }catch(e: any) {
+  } catch(e: any) {
     console.log(e)
   }
 })
 
 async function handleRefresh(event: any) {
   try {
-    console.log("Updated!")
+    if (currentUser.value) {
+      myParties.value = await request.getPartiesByCreatorId(currentUser.value.id, 1)
+    }
   } catch(e: any) {
     console.log(e)
   }
@@ -64,6 +71,18 @@ async function handleRefresh(event: any) {
   setTimeout(() => {
     event.target.complete();
   }, 500);
+}
+
+async function onPartyCreated() {
+  await populateUser()
+}
+
+function openCreatePartyModal() {
+  createPartyModalIsOpen.value = true
+}
+
+function closeCreatePartyModal() {
+  createPartyModalIsOpen.value = false
 }
 
 </script>

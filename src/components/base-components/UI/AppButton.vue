@@ -14,6 +14,8 @@ const props = defineProps<{
   fontSize?: number,
   color?: string,
   backgroundColor?: string,
+  paddingY?: number,
+  paddingX?: number,
 }>()
 
 onMounted(() => {
@@ -28,13 +30,22 @@ onMounted(() => {
   if (props.color) {
     buttonRef.value?.style.setProperty("color", props.color)
   }
+
+  if (props.paddingX) {
+    buttonRef.value?.style.setProperty("padding-right", `${props.paddingX}px`)
+    buttonRef.value?.style.setProperty("padding-left", `${props.paddingX}px`)
+  }
+
+  if (props.paddingY) {
+    buttonRef.value?.style.setProperty("padding-top", `${props.paddingY}px`)
+    buttonRef.value?.style.setProperty("padding-bottom", `${props.paddingY}px`)
+  }
 })
 
 </script>
 
 <style scoped lang="scss">
 .button__wrapper {
-  width: 100%;
   button {
     background-color: var(--app-red);
     color: #fff;

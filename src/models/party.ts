@@ -20,3 +20,11 @@ export interface Party {
 export interface ExistsInPartyResponse {
     isJoined: boolean
 }
+
+export interface CreateParty {
+    title: string,
+    description: string,
+    image: string,
+    price: number,
+    startDate: string
+}

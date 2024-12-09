@@ -2,9 +2,18 @@
     "LANGUAGES": {
         "ENGLISH": "English"
     },
+    "DATETIME": {
+        "LOCAL": "en-150-u-hc-h24"
+    },
     "NO_ITEMS_TEXTS": {
         "NO_PARTIES": "Paties dont exists yet!",
         "NO_FAVORITES": "No one in favorites!"
+    },
+    "INFO": {
+        "CREATING_COST": "Creating cost"
+    },
+    "USER": {
+        "BALANCE": "Your balance"
     },
     "TABS": {
         "PARTIES": "Parties",
@@ -16,13 +25,26 @@
         "TITLE": "Title",
         "DESCRIPTION": "Description",
         "START_DATE": "Start date",
-        "CREATOR": "Creator"
+        "CREATOR": "Creator",
+        "IMAGE": "Image"
+    },
+    "PLACEHOLDERS": {
+        "NAME": "Name",
+        "EMAIL": "Email",
+        "PASSWORD": "Password",
+        "REPEAT_PASSWORD": "Repeat Password"
     },
     "BTNS": {
         "JOIN": "Join",
         "LEAVE": "Leave",
         "FOLLOW": "Follow",
         "UNFOLLOW": "Unfollow",
-        "CREATE": "Create"
+        "CREATE": "Create",
+        "LOGIN": "Login",
+        "SIGN_UP": "Sign up",
+        "UPLOAD_IMG": "Upload image"
+    },
+    "HEADER": {
+        "NEW_PARTY": "New party"
     }
 }   

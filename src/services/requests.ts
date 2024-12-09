@@ -1,4 +1,4 @@
-import { CurrentSessionUser, CurrentUser,  ExistsInFavoritesResponse, ExistsInPartyResponse, FavoritesResponse, LoginRequest, PartiesResponse, RegisterRequest } from "@/models"
+import { CreateParty, CurrentSessionUser, CurrentUser,  ExistsInFavoritesResponse, ExistsInPartyResponse, FavoritesResponse, LoginRequest, PartiesResponse, RegisterRequest } from "@/models"
 import { apiService } from "./api"
 
 export const requestService = () => {
@@ -52,6 +52,10 @@ export const requestService = () => {
         return await api.get(`/parties/creator/${creatorId}?page=${page}&limit=10`)
     }
 
+    async function craeteParty(body: CreateParty) {
+        return await api.post(`/party`, body)
+    }
+
     //Party actions requests
     async function checkExistsInParty(partyId: number): Promise<ExistsInPartyResponse> {
         return await api.get(`/actions/party/check/${partyId}`)
@@ -80,5 +84,6 @@ export const requestService = () => {
         removeFromFavorites,
         getPartiesByCreatorId,
         getFavorites,
+        craeteParty
     }
 }

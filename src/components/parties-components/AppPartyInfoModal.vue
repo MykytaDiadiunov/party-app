@@ -93,15 +93,15 @@ function pressOnUserItem() {
 <style scoped lang="scss">
 $labelFontSize: 14px;
 
-.base-label {
-  font-size: $labelFontSize !important;
-}
-
 .base-text {
   background-color: #fff;
   padding: 10px;
   border-radius: 8px;
   margin-bottom: 15px;
+}
+
+.base-label {
+  font-size: $labelFontSize !important;
 }
 
 .modal {

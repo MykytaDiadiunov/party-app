@@ -20,7 +20,7 @@ import BaseLayout from '@/layouts/BaseLayout.vue';
 import AppPartyItem from '@/components/parties-components/AppPartyItem.vue';
 import AppPartyInfoModal from '@/components/parties-components/AppPartyInfoModal.vue';
 import AppNoItems from '@/components/base-components/AppNoItems.vue';
-import { onIonViewDidEnter } from '@ionic/vue';
+import { onIonViewDidEnter, IonRefresher, IonRefresherContent } from '@ionic/vue';
 import { PartiesResponse, Party } from '@/models';
 import { requestService } from '@/services';
 import { useAppI18n } from '@/i18n'
