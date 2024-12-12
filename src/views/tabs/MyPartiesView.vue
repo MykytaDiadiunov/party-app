@@ -4,8 +4,8 @@
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
 
-    <div v-if="myParties && (myParties.total > 0)" class="items__wrapper">
-
+    <div v-if="myParties && (myParties.total > 0)"  class="items__wrapper">
+      <app-party-item class="party__item" v-for="item in myParties.items" :data="item" :key="item.id"/>
     </div>
 
     <app-no-items v-else>
@@ -21,6 +21,11 @@
 
     <app-create-party-modal @modal-close="closeCreatePartyModal" @party-created="onPartyCreated" :is-open="createPartyModalIsOpen"/>
 
+    <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+      <ion-fab-button @click="openCreatePartyModal">
+        <ion-icon size="large" :icon="add" color="white"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
   </base-layout>
 </template>
 
@@ -28,10 +33,12 @@
 import AppCreatePartyModal from '@/components/my-parties-components/AppCreatePartyModal.vue';
 import BaseLayout from '@/layouts/BaseLayout.vue';
 import AppNoItems from '@/components/base-components/AppNoItems.vue';
+import AppPartyItem from '@/components/parties-components/AppPartyItem.vue';
 import { useAppI18n } from '@/i18n'; 
 import { ref } from 'vue';
 import { CurrentUser, PartiesResponse } from '@/models';
-import { onIonViewWillEnter, IonRefresher, IonRefresherContent } from '@ionic/vue';
+import { onIonViewWillEnter, IonRefresher, IonRefresherContent, IonFab, IonFabButton, IonIcon } from '@ionic/vue';
+import { add } from 'ionicons/icons';
 import { requestService } from '@/services';
 import { useUserStore } from '@/stores';
 
@@ -75,6 +82,7 @@ async function handleRefresh(event: any) {
 
 async function onPartyCreated() {
   await populateUser()
+  createPartyModalIsOpen.value = false
 }
 
 function openCreatePartyModal() {
@@ -102,10 +110,15 @@ function closeCreatePartyModal() {
   }
 }
 
-
 .no-items {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+ion-fab-button {
+  --background: var(--app-red);
+  margin-bottom: 15px;
+  margin-right: 5px;
 }
 </style>

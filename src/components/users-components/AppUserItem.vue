@@ -6,8 +6,10 @@
       </div>
       <div class="creator__name">{{ user.username }}</div>
     </div>
-    <my-button v-if="!userIsFavorite?.isLiked" @click.stop="followUser" font-size="14" :title="translate('BTNS.FOLLOW')"/>
-    <my-button v-else @click.stop="unfollowUser" background-color="var(--app-pressed-btn)" font-size="14" :title="translate('BTNS.UNFOLLOW')"/>
+    <div v-if="!isCurrentUserItem" class="buttons__wrapper">
+      <my-button v-if="!userIsFavorite?.isLiked" @click.stop="followUser" font-size="14" :title="translate('BTNS.FOLLOW')"/>
+      <my-button v-else @click.stop="unfollowUser" background-color="var(--app-pressed-btn)" font-size="14" :title="translate('BTNS.UNFOLLOW')"/>
+    </div>
   </div>
 </template>
 
@@ -17,7 +19,10 @@ import { NO_AVATAR } from '@/constants';
 import { requestService, routingService } from '@/services';
 import { CurrentUser, ExistsInFavoritesResponse, User } from '@/models';
 import { useAppI18n } from '@/i18n'; 
+import { useUserStore } from '@/stores';
 const { translate } = useAppI18n()
+
+const { getCurrentUserData } = useUserStore()
 
 const requests = requestService()
 const routing = routingService()
@@ -25,6 +30,8 @@ const routing = routingService()
 const userIsFavorite = ref<ExistsInFavoritesResponse>()
 
 const userConteiner = ref<HTMLDivElement | null>(null)
+
+const isCurrentUserItem = ref<boolean>(false)
 
 const props = defineProps<{
   user: CurrentUser | User,
@@ -39,7 +46,8 @@ const emit = defineEmits<{
 
 onMounted(async () => {
   userIsFavorite.value = await requests.checkExistsInFavorites(props.user.id)
-  
+  const currentUser: CurrentUser | null = getCurrentUserData()
+  isCurrentUserItem.value = currentUser?.id === props.user.id
   if (props.backgroundColor && userConteiner.value) {
     userConteiner.value.style.setProperty('background-color', props.backgroundColor)
   }
@@ -64,7 +72,11 @@ async function unfollowUser() {
 function routToUserProfile() {
   if (props.user) {
     emit('press')
-    routing.toUserProfile(props.user.id)
+    if (isCurrentUserItem.value) {
+      routing.toProfile()
+    } else {
+      routing.toUserProfile(props.user.id)
+    }
   }
 }
 </script>

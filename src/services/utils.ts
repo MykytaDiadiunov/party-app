@@ -1,11 +1,13 @@
 import { ConvertedToBase64Image } from "@/models";
 
 export function getFormatedDate(date: Date): string {
-    return `${date.getDate() <= 9 ? '0' : ''}${date.getDate()}.${date.getMonth() + 1 <= 9 ? '0' : ''}${date.getMonth() + 1}.${date.getFullYear()}`
+    const formatedString: string = `${date.getUTCDate() <= 9 ? '0' : ''}${date.getUTCDate()}.${date.getUTCMonth() + 1 <= 9 ? '0' : ''}${date.getUTCMonth() + 1}.${date.getUTCFullYear()}`
+    return formatedString
 }
 
 export function getFormatedTime(date: Date): string {
-    return `${date.getHours()}:${date.getMinutes() <= 9 ? '0' : ''}${date.getMinutes()}`
+    const formatedString: string = `${date.getUTCHours()}:${date.getUTCMinutes() <= 9 ? '0' : ''}${date.getUTCMinutes()}`
+    return formatedString
 }
 
 export async function convertImgToBase64String(file: File): Promise<ConvertedToBase64Image> {
@@ -29,4 +31,9 @@ export async function convertImgToBase64String(file: File): Promise<ConvertedToB
 
         reader.readAsDataURL(file);
     });
+}
+
+export function dateTimeObjectToApiDatetimeString(date: Date): string {
+    const dateString: string = `${date.getFullYear()}-${date.getMonth() + 1 <= 9 ? '0' : ''}${date.getMonth() + 1 }-${date.getDate() <= 9 ? '0' : ''}${date.getDate()}T${date.getHours() <= 9 ? '0' : ''}${date.getHours()}:${date.getMinutes() <= 9 ? '0' : ''}${date.getMinutes()}:${date.getMilliseconds() <= 9 ? '0' : ''}${date.getMilliseconds()}Z`
+    return dateString
 }

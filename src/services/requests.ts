@@ -32,15 +32,19 @@ export const requestService = () => {
     }
 
     async function addToFavorites(userId: number): Promise<void> {
-        return await api.get(`/user/me/favorites/add/${userId}`)
+        return await api.get(`/user/me/favorite/add/${userId}`)
     }
 
     async function removeFromFavorites(userId: number): Promise<void> {
-        return await api.del(`/user/me/favorites/remove/${userId}`)
+        return await api.del(`/user/me/favorite/remove/${userId}`)
     }
 
-    async function getFavorites(): Promise<FavoritesResponse> {
-        return await api.get(`/user/me/favorites`)
+    async function getFavoriteUsers(): Promise<FavoritesResponse> {
+        return await api.get(`/user/me/favorite/users`)
+    }
+
+    async function getFavoriteUsersParty(page: number, limit: number): Promise<PartiesResponse> {
+        return await api.get(`/user/me/favorite/users/parties?page=${page}&limit=${limit}`)
     }
 
     //Parties requests
@@ -83,7 +87,8 @@ export const requestService = () => {
         addToFavorites,
         removeFromFavorites,
         getPartiesByCreatorId,
-        getFavorites,
-        craeteParty
+        getFavoriteUsers,
+        craeteParty,
+        getFavoriteUsersParty
     }
 }
