@@ -53,7 +53,7 @@ const route = useRoute()
 
 const selectedTab = ref<string>('tab1')
 
-onIonViewWillEnter(() => {
+watch(() => route.path, () => {
   if(route.path === '/tabs/parties') {
     selectedTab.value = 'tab1'
   }
@@ -66,10 +66,6 @@ onIonViewWillEnter(() => {
   else if (route.path === '/tabs/my-parties') {
     selectedTab.value = 'tab4'
   }
-})
-
-watch(route, () => {
-
 }, { immediate: true })
 
 async function selectTab(tabName: string, routingTo:() => void) {

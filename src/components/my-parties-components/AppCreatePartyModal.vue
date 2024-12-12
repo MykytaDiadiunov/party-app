@@ -1,25 +1,24 @@
 <template>
   <div class="modal__wrapper">
-    <ion-modal  @ionModalWillPresent="onPartyBeforeModelIsOpen" @ionModalDidPresent="onPartyModalIsOpen" :is-open="isOpen">
+    <ion-modal  @ionModalWillPresent="onPartyBeforeModelIsOpen" :is-open="isOpen">
       <app-header @back-button-click="emit('modalClose')" :back-button="true" :text="translate('HEADER.NEW_PARTY')"/>
       <ion-content>
         <form class="form" onsubmit="return false">
           <div class="party__title">
             <label>
               {{ translate('LABELS.TITLE') }}
-              <my-input :placeholder="translate('LABELS.TITLE')"/>
+              <my-input v-model="partyTitle" :placeholder="translate('LABELS.TITLE')"/>
             </label>
           </div>
           <div class="party__description">
             {{ translate('LABELS.DESCRIPTION') }}
-            <my-input :placeholder="translate('LABELS.DESCRIPTION')"/>
+            <my-input v-model="partyDescription" :placeholder="translate('LABELS.DESCRIPTION')"/>
           </div>
           <div class="party__start-time">
             <label>{{ translate('LABELS.START_DATE') }}</label> 
-             <my-button @click="openDatetimeInput" title="tExt"/>
             <div v-if="partyStartTimeDateObject" class="party__start-date">
-              <div>{{ getFormatedDate(partyStartTimeDateObject) }}, {{ getFormatedTime(partyStartTimeDateObject) }}</div>
-              <input ref="datetimeInputRef" type="datetime-local" class="display-none">
+              <div class="mb-10">{{ getFormatedDate(partyStartTimeDateObject) }}, {{ getFormatedTime(partyStartTimeDateObject) }}</div>
+              <input ref="datetimeInputRef" @change="onDatetimeInputChanged" type="datetime-local">
             </div>
           </div>
           <div class="party__image">
@@ -37,7 +36,7 @@
           </div>
           <div class="party__submit">
             <div class="submit__wrapper">
-              <my-button paddingY="15" :title="translate('BTNS.CREATE')"/>
+              <my-button @click="submit" paddingY="15" :title="translate('BTNS.CREATE')"/>
             </div>
           </div>
         </form>
@@ -48,15 +47,17 @@
 
 <script setup lang="ts">
 import AppHeader from '../base-components/AppHeader.vue';
-import { defineProps, defineEmits, ref, nextTick, onMounted } from 'vue';
-import { IonContent, IonModal, IonDatetime, IonDatetimeButton } from '@ionic/vue';
+import { defineProps, defineEmits, ref } from 'vue';
+import { IonContent, IonModal } from '@ionic/vue';
 import { useAppI18n } from '@/i18n';
-import { convertImgToBase64String, getFormatedDate, getFormatedTime } from '@/services';
+import { convertImgToBase64String, getFormatedDate, getFormatedTime, dateTimeObjectToApiDatetimeString, requestService } from '@/services';
 import { ConvertedToBase64Image, CreateParty, CurrentUser } from '@/models';
 import { useUserStore } from '@/stores';
 import { PARTY_CREATING_COST } from '@/constants';
 
 const { translate } = useAppI18n()
+
+const request = requestService()
 
 const userStore = useUserStore()
 
@@ -67,27 +68,11 @@ const imagePreview = ref<string | null>(null)
 
 const currentUser = ref<CurrentUser | null>(null)
 
-const createPartyBody = ref<CreateParty>()
 const partyTitle = ref<string>('')
 const partyDescription = ref<string>('')
-const partyStartTime = ref<string>()
-const partyStartTimeDateObject = ref<Date>(new Date())
-
-interface DatetimeFormatOption { 
-  date?: Intl.DateTimeFormatOptions; 
-  time: Intl.DateTimeFormatOptions; 
-}
-
-const formatOptions: DatetimeFormatOption = {
-  date: {
-    month: 'long',
-    day: '2-digit',
-  },  
-  time: {
-    hour: '2-digit',
-    minute: '2-digit',
-  },
-}
+const partyStartTime = ref<string>('')
+const partyImageBase64String = ref<string>('')
+const partyStartTimeDateObject = ref<Date>()
 
 const props = defineProps<{
   isOpen: boolean,
@@ -100,22 +85,31 @@ const emit = defineEmits<{
 
 function onPartyBeforeModelIsOpen() {
   currentUser.value = userStore.getCurrentUserData()
+  setStartDatetime(new Date())
 }
 
-function onPartyModalIsOpen() {
-  console.log(datetimeInputRef.value)
-  if (datetimeInputRef.value) {
-    // datetimeInputRef.value.valueAsDate = partyStartTimeDateObject.value
-  } 
+async function submit() {
+  if (partyTitle.value && partyDescription.value && partyStartTime.value) {
+    const newPartyBody: CreateParty = {
+      title: partyTitle.value,
+      description: partyDescription.value,
+      image: partyImageBase64String.value ? partyImageBase64String.value : null,
+      price: PARTY_CREATING_COST,
+      startDate: partyStartTime.value
+    }
+
+    await request.craeteParty(newPartyBody)
+    emit('partyCreated')
+  }
+}
+
+function setStartDatetime(date: Date) {
+  partyStartTimeDateObject.value = date
+  partyStartTime.value = dateTimeObjectToApiDatetimeString(partyStartTimeDateObject.value)
 }
 
 function openFileInput() {
   imageInputRef.value?.click()
-}
-
-function openDatetimeInput() {
-  console.log(1)
-  datetimeInputRef.value?.showPicker()
 }
 
 async function uploadImage() {
@@ -123,6 +117,14 @@ async function uploadImage() {
     const file: File = imageInputRef.value?.files[0]
     const convertedImg: ConvertedToBase64Image = await convertImgToBase64String(file)
     imagePreview.value = convertedImg.image
+    partyImageBase64String.value = convertedImg.splitedImage
+  }
+}
+
+function onDatetimeInputChanged() {
+  if (datetimeInputRef.value) {
+    const changedDate = new Date(datetimeInputRef.value?.value)
+    setStartDatetime(changedDate)
   }
 }
 </script>
@@ -156,6 +158,9 @@ $marginBottom: 15px;
 
   &__start-date {
     @extend .base-text;
+    div {
+      font-size: 20px;
+    } 
   }
 
   &__image {
@@ -207,14 +212,6 @@ $marginBottom: 15px;
       border-radius: 8px;
     }
   }
-}
-
-ion-datetime-button {
-  justify-content: left ;
-}
-
-ion-datetime-button::part(native) {
-  background-color: #fff;
 }
 
 </style>

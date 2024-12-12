@@ -27,8 +27,6 @@ const emit = defineEmits<{
 
 <style scoped lang="scss">
 .main {
-  height: 100%;
-  width: 100%;
   padding: 10px;
 }
 </style>

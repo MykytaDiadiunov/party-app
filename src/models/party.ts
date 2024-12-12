@@ -24,7 +24,7 @@ export interface ExistsInPartyResponse {
 export interface CreateParty {
     title: string,
     description: string,
-    image: string,
+    image: string | null,
     price: number,
     startDate: string
 }

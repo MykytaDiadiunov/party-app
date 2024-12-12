@@ -65,3 +65,10 @@ ion-title {
     font-weight: 600;
     font-size: 24px;
 }
+
+.party__item {
+    margin-bottom: 15px;
+    &:last-child {
+        margin-bottom: 0;   
+    }
+}

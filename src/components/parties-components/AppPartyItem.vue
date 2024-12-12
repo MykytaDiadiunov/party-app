@@ -1,7 +1,8 @@
 <template>
-  <div class="party__item">
+  <div class="party__item" @click="openPartyModal()">
     <div class="item__img">
-      <img :src="IMG_BASE_URL + data.image" alt="item_img">
+      <img v-if="data.image" :src="IMG_BASE_URL + data.image" alt="item_img">
+      <img v-else src="../../../public/icons/image.png" alt="item_img">
     </div>
     <div class="item__info">
       <div class="item__title">{{ data.title }}</div>
@@ -10,25 +11,41 @@
         {{ getFormatedTime(formattedStartTime) }} 
       </div>
     </div>
+    <app-party-info-modal @modal-close="closePartyModal" :current-user-is-owner="userIsPartyOwner" :party="data" :is-open="partyModalIsOpen"/>
   </div>
 </template>
 
 <script setup lang="ts">
+import AppPartyInfoModal from '@/components/parties-components/AppPartyInfoModal.vue';
 import { IMG_BASE_URL } from '@/constants';
-import { Party } from '@/models';
+import { CurrentUser, Party } from '@/models';
 import { getFormatedDate, getFormatedTime } from '@/services';
+import { useUserStore } from '@/stores';
 import { defineProps, onMounted, ref } from 'vue';
 
+const { getCurrentUserData } = useUserStore()
+
 const formattedStartTime = ref<Date>()
+const partyModalIsOpen = ref<boolean>(false)
+const userIsPartyOwner = ref<boolean>(false)
 
 const props = defineProps<{
-  data: Party
+  data: Party,
 }>()
 
 onMounted(() => {
   formattedStartTime.value = new Date(props.data.startDate)
+  const currentUser: CurrentUser | null = getCurrentUserData()
+  userIsPartyOwner.value = currentUser?.id === props.data.creatorId.id
 })
 
+function openPartyModal() {
+  partyModalIsOpen.value = true
+}
+
+function closePartyModal() {
+  partyModalIsOpen.value = false
+}
 </script>
 
 <style scoped lang="scss">

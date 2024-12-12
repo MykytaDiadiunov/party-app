@@ -6,10 +6,11 @@
         <div class="modal__content">
           <div class="icon__wrapper">
             <div class="party__icon">
-              <img :src="IMG_BASE_URL + party?.image" alt="party_img">
+              <img v-if="party.image" :src="IMG_BASE_URL + party.image" alt="item_img">
+              <img v-else src="../../../public/icons/image.png" alt="item_img">
             </div>
           </div>
-          <div class="party__accept">
+          <div v-if="!currentUserIsOwner" class="party__accept">
             <my-button v-if="!partyIsJoined?.isJoined" @click="joinToParty" font-size="20" :title="translate('BTNS.JOIN')"/>
             <my-button v-else @click="leaveFromParty" background-color="var(--app-pressed-btn)" font-size="20" :title="translate('BTNS.LEAVE')"/>
           </div>
@@ -38,20 +39,20 @@
 <script setup lang="ts">
 import AppHeader from '@/components/base-components/AppHeader.vue';
 import AppUserItem from '@/components/users-components/AppUserItem.vue';
-import { defineProps, defineEmits, ref, onMounted } from 'vue'
+import { defineProps, defineEmits, ref } from 'vue'
 import { IonModal, IonContent } from '@ionic/vue';
 import { useAppI18n } from '@/i18n';
 import { ExistsInFavoritesResponse, ExistsInPartyResponse, Party } from '@/models';
-import { IMG_BASE_URL, NO_AVATAR } from '@/constants';
+import { IMG_BASE_URL } from '@/constants';
 import { getFormatedDate, getFormatedTime, requestService, routingService } from '@/services';
 const { translate } = useAppI18n()
 
 const requests = requestService()
-const routing = routingService()
 
 const props = defineProps<{
-  party?: Party,
   isOpen: boolean,
+  currentUserIsOwner: boolean
+  party: Party,
 }>()
 
 const emit = defineEmits<{
@@ -129,6 +130,7 @@ $labelFontSize: 14px;
     margin-bottom: 15px;
 
     img {
+      background-color: #fff;
       border: 8px solid var(--app-red);
       border-radius: 15px;
     }
