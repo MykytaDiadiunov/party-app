@@ -17,9 +17,12 @@
         <div v-else-if="selectedSegment === Segments.Actions" class="segment__actions">
           <app-action-list class="ma-20">
             <app-action-item :icon="people" :title="translate('ACTIONS.MEMBERS')" :modal-title="translate('ACTIONS.MEMBERS')">
-              <div class="members__wrapper">
+              <div v-if="partyWithMembers?.members && partyWithMembers.members.length > 0" class="members__wrapper">
                 <app-user-item @press="closeAllModals" v-for="user in partyWithMembers?.members" :user="user" background-color="#F8F8F8"/>
               </div>
+              <app-no-items v-else class="ma-20">
+                {{ translate('NO_ITEMS_TEXTS.NO_MEMBERS') }}
+              </app-no-items>
             </app-action-item>
             <app-action-item @on-click="toggleDeleteAlertIsOpen" :icon="trash" :title="translate('BTNS.DELETE')">
               <template v-slot:custom>
@@ -44,6 +47,7 @@ import AppCreateUpdatePartyForm from './AppCreateUpdatePartyForm.vue';
 import AppActionList from '../base-components/AppActionList.vue';
 import AppActionItem from '../base-components/AppActionItem.vue';
 import AppUserItem from '../users-components/AppUserItem.vue';
+import AppNoItems from '../base-components/AppNoItems.vue';
 import { useAppI18n } from '@/i18n';
 import { trash, people } from 'ionicons/icons';
 import { CreateParty, Party, PartyWithMembers } from '@/models';
