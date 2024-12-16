@@ -1,4 +1,4 @@
-import { ConvertedToBase64Image } from "@/models";
+import { ConvertedToBase64Image, CreateParty, UpdateParty } from "@/models";
 
 export function getFormatedDate(date: Date): string {
     const formatedString: string = `${date.getUTCDate() <= 9 ? '0' : ''}${date.getUTCDate()}.${date.getUTCMonth() + 1 <= 9 ? '0' : ''}${date.getUTCMonth() + 1}.${date.getUTCFullYear()}`
@@ -36,4 +36,14 @@ export async function convertImgToBase64String(file: File): Promise<ConvertedToB
 export function dateTimeObjectToApiDatetimeString(date: Date): string {
     const dateString: string = `${date.getFullYear()}-${date.getMonth() + 1 <= 9 ? '0' : ''}${date.getMonth() + 1 }-${date.getDate() <= 9 ? '0' : ''}${date.getDate()}T${date.getHours() <= 9 ? '0' : ''}${date.getHours()}:${date.getMinutes() <= 9 ? '0' : ''}${date.getMinutes()}:${date.getMilliseconds() <= 9 ? '0' : ''}${date.getMilliseconds()}Z`
     return dateString
+}
+
+export function createPartyModelToUpdatePartyModel(createPartyModel: CreateParty): UpdateParty {
+    const updatePartyModel: UpdateParty = {
+        title: createPartyModel.title,
+        description: createPartyModel.description,
+        image: createPartyModel.image,
+        startDate: createPartyModel.startDate
+    }
+    return updatePartyModel
 }

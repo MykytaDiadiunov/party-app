@@ -42,9 +42,26 @@
         "CREATE": "Create",
         "LOGIN": "Login",
         "SIGN_UP": "Sign up",
-        "UPLOAD_IMG": "Upload image"
+        "UPLOAD_IMG": "Upload image",
+        "UPDATE": "Update",
+        "DELETE": "Delete",
+        "REMOVE": "Remove",
+        "YES": "Yes",
+        "NO": "No"
+    },
+    "ACTIONS": {
+        "REMOVE_PARTY": "Remove Party",
+        "MEMBERS": "Members"
+    },
+    "ALERTS": {
+        "YOU_SURE": "Are you sure?"
+    },
+    "SEGMENTS": {
+        "DETAILS": "Details",
+        "ACTIONS": "Actions"
     },
     "HEADER": {
-        "NEW_PARTY": "New party"
+        "NEW_PARTY": "New Party",
+        "UPDATE_PARTY": "Update Party"
     }
 }   

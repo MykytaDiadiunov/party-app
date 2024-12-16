@@ -1,9 +1,7 @@
 <template>
   <base-layout @back-button-click="routing.toBack" :back-layout="true" :header-text="userData ? userData.username : ''">
     <div class="content__wrapper">
-      
       <app-user-avatar/>
-
       <div class="user__name">{{ userData?.username }}</div>
       <div class="user__email">{{ userData?.email }}</div>
       <div class="user__fav-btn">
@@ -19,7 +17,7 @@
         <app-no-items v-else >{{ translate('NO_ITEMS_TEXTS.NO_PARTIES') }}</app-no-items>
       </div>
     </div>
-    <app-party-info-modal :is-open="selectedPartyModelIsOpen" :party="selectedParty" @modal-close="closePartyModal"/>
+    <app-party-info-modal v-if="selectedParty" :current-user-is-owner="false" :is-open="selectedPartyModelIsOpen" :party="selectedParty" @modal-close="closePartyModal"/>
   </base-layout>
 </template>
 

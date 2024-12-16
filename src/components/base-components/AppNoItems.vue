@@ -1,6 +1,6 @@
 <template>
   <div class="no-items">
-    <div class="no-items__wrapper"><span><slot/></span></div>
+    <div class="no-items__wrapper"><span><slot></slot></span></div>
   </div>
 </template>
 

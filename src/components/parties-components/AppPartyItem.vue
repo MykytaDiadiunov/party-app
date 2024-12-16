@@ -1,5 +1,5 @@
 <template>
-  <div class="party__item" @click="openPartyModal()">
+  <div class="party__item" @click="clickHandler">
     <div class="item__img">
       <img v-if="data.image" :src="IMG_BASE_URL + data.image" alt="item_img">
       <img v-else src="../../../public/icons/image.png" alt="item_img">
@@ -21,7 +21,7 @@ import { IMG_BASE_URL } from '@/constants';
 import { CurrentUser, Party } from '@/models';
 import { getFormatedDate, getFormatedTime } from '@/services';
 import { useUserStore } from '@/stores';
-import { defineProps, onMounted, ref } from 'vue';
+import { defineProps, defineEmits, onMounted, ref } from 'vue';
 
 const { getCurrentUserData } = useUserStore()
 
@@ -31,13 +31,30 @@ const userIsPartyOwner = ref<boolean>(false)
 
 const props = defineProps<{
   data: Party,
+  notDefaultClick?: boolean
+}>()
+
+const emit = defineEmits<{
+  (e: 'onClick'): void
 }>()
 
 onMounted(() => {
   formattedStartTime.value = new Date(props.data.startDate)
-  const currentUser: CurrentUser | null = getCurrentUserData()
-  userIsPartyOwner.value = currentUser?.id === props.data.creatorId.id
+  if (!props.notDefaultClick) {
+    const currentUser: CurrentUser | null = getCurrentUserData()
+    userIsPartyOwner.value = currentUser?.id === props.data.creatorId.id
+  }
 })
+
+
+
+function clickHandler() {
+  if (props.notDefaultClick) {
+    emit('onClick')
+  } else {
+    openPartyModal()
+  }
+} 
 
 function openPartyModal() {
   partyModalIsOpen.value = true

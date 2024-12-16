@@ -1,11 +1,12 @@
 <template>
   <base-layout :header-text="translate('TABS.PROFILE')">
-    <div>Profile</div>
+    <app-user-avatar/>
   </base-layout>
 </template>
 
 <script setup lang="ts">
 import BaseLayout from '@/layouts/BaseLayout.vue';
+import AppUserAvatar from '@/components/users-components/AppUserAvatar.vue';
 import { useAppI18n } from '@/i18n'; 
 
 const { translate } = useAppI18n()
