@@ -1,4 +1,5 @@
 import { ConvertedToBase64Image, CreateParty, UpdateParty } from "@/models";
+import { modalController } from "@ionic/vue";
 
 export function getFormatedDate(date: Date): string {
     const formatedString: string = `${date.getUTCDate() <= 9 ? '0' : ''}${date.getUTCDate()}.${date.getUTCMonth() + 1 <= 9 ? '0' : ''}${date.getUTCMonth() + 1}.${date.getUTCFullYear()}`
@@ -46,4 +47,12 @@ export function createPartyModelToUpdatePartyModel(createPartyModel: CreateParty
         startDate: createPartyModel.startDate
     }
     return updatePartyModel
+}
+
+export async function closeAllModals() {
+    let modal = await modalController.getTop()
+    while (modal) {
+    await modal.dismiss()
+    modal = await modalController.getTop()
+    }
 }

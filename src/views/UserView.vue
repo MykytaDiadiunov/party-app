@@ -1,9 +1,7 @@
 <template>
   <base-layout @back-button-click="routing.toBack" :back-layout="true" :header-text="userData ? userData.username : ''">
     <div class="content__wrapper">
-      <app-user-avatar/>
-      <div class="user__name">{{ userData?.username }}</div>
-      <div class="user__email">{{ userData?.email }}</div>
+      <app-user-data v-if="userData" :user-data="userData"/>
       <div class="user__fav-btn">
         <div class="fav__button__wrapper">
           <my-button v-if="!userIsFavorite?.isLiked" @click.stop="followUser" font-size="14" :title="translate('BTNS.FOLLOW')"/>
@@ -24,7 +22,7 @@
 import BaseLayout from '@/layouts/BaseLayout.vue';
 import AppPartyItem from '@/components/parties-components/AppPartyItem.vue';
 import AppNoItems from '@/components/base-components/AppNoItems.vue';
-import AppUserAvatar from '@/components/users-components/AppUserAvatar.vue';
+import AppUserData from '@/components/users-components/AppUserData.vue';
 import { onIonViewWillEnter } from '@ionic/vue';
 import { CurrentUser, ExistsInFavoritesResponse, PartiesResponse, Party } from '@/models';
 import { requestService, routingService } from '@/services';
@@ -95,21 +93,6 @@ function setSelectedParty(party: Party) {
 }
 
 .user {
-
-  &__name {
-    font-weight: 600;
-    font-size: 28px;
-    text-align: center;
-    margin-bottom: 10px;
-  }
-
-  &__email {
-    font-weight: 300;
-    font-size: 18px;
-    text-align: center;
-    margin-bottom: 10px;
-  }
-
   &__fav-btn {
     width: 100%;
     display: flex;

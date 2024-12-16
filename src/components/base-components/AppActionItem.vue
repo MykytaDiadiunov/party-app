@@ -8,7 +8,7 @@
         <div class="action__title">{{ title }}</div>
       </div>
       <div class="action__arrow">
-        <img src="../../../public/icons/arrow2.png" alt="arrow">
+        <img src="../../../public/icons/arrow.png" alt="arrow">
       </div>
     </div>
   </div>
