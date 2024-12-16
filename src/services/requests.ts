@@ -47,6 +47,10 @@ export const requestService = () => {
         return await api.get(`/user/me/favorite/users/parties?page=${page}&limit=${limit}`)
     }
 
+    async function getUsersByLikedId(likedId: number) {
+        return await api.get(`/user/favorite/${likedId}`)
+    }
+
     //Parties requests
     async function getParties(page: number): Promise<PartiesResponse> {
         return await api.get(`/parties?page=${page}&limit=10`)
@@ -104,6 +108,7 @@ export const requestService = () => {
         getFavoriteUsersParty,
         udapteParty,
         deleteParty,
-        getPartyById
+        getPartyById,
+        getUsersByLikedId
     }
 }

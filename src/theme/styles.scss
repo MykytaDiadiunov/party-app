@@ -76,3 +76,10 @@ ion-title {
         margin-bottom: 0;   
     }
 }
+
+.members {
+    &__wrapper {
+    border-radius: 8px;
+    margin: 20px;
+    }
+}

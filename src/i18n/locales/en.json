@@ -52,7 +52,10 @@
     },
     "ACTIONS": {
         "REMOVE_PARTY": "Remove Party",
-        "MEMBERS": "Members"
+        "MEMBERS": "Members",
+        "LOGOUT": "Logout",
+        "SUBSCRIBERS": "Subscribers",
+        "LANGUAGES": "Languages"
     },
     "ALERTS": {
         "YOU_SURE": "Are you sure?"

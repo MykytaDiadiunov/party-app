@@ -106,8 +106,12 @@ function routToUserProfile() {
   }
 
   &__name {
+    width: 110px;
     font-size: 20px;
     font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 

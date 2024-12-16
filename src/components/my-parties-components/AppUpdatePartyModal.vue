@@ -18,7 +18,7 @@
           <app-action-list class="ma-20">
             <app-action-item :icon="people" :title="translate('ACTIONS.MEMBERS')" :modal-title="translate('ACTIONS.MEMBERS')">
               <div v-if="partyWithMembers?.members && partyWithMembers.members.length > 0" class="members__wrapper">
-                <app-user-item @press="closeAllModals" v-for="user in partyWithMembers?.members" :user="user" background-color="#F8F8F8"/>
+                <app-user-item class="party__item" @press="closeAllModals" v-for="user in partyWithMembers?.members" :user="user" background-color="#F8F8F8"/>
               </div>
               <app-no-items v-else class="ma-20">
                 {{ translate('NO_ITEMS_TEXTS.NO_MEMBERS') }}
@@ -51,14 +51,13 @@ import AppNoItems from '../base-components/AppNoItems.vue';
 import { useAppI18n } from '@/i18n';
 import { trash, people } from 'ionicons/icons';
 import { CreateParty, Party, PartyWithMembers } from '@/models';
-import { createPartyModelToUpdatePartyModel, requestService } from '@/services';
-import { IonContent, IonModal, IonLabel, IonSegment, IonSegmentButton, IonAlert, AlertButton, modalController } from '@ionic/vue';
+import { createPartyModelToUpdatePartyModel, requestService, closeAllModals } from '@/services';
+import { IonContent, IonModal, IonLabel, IonSegment, IonSegmentButton, IonAlert, AlertButton } from '@ionic/vue';
 import { defineEmits, defineProps, ref } from 'vue'
 
 const { translate } = useAppI18n()
 
 const request = requestService()
-const modalService = modalController
 
 enum Segments {
   Details = 'details',
@@ -109,23 +108,7 @@ async function submit(newPartyBody: CreateParty) {
 function toggleDeleteAlertIsOpen() {
   deleteAlertIsOpen.value = !deleteAlertIsOpen.value
 }
-
-async function closeAllModals() {
-  let modal = await modalController.getTop()
-
-  while (modal) {
-    await modal.dismiss()
-    modal = await modalController.getTop()
-  }
-}
-
 </script>
 
 <style scoped lang="scss">
-.members {
-  &__wrapper {
-    border-radius: 8px;
-    margin: 20px;
-  }
-}
 </style>

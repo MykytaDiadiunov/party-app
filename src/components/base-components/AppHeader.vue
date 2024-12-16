@@ -2,7 +2,7 @@
 <ion-header>
   <ion-toolbar>
     <div v-if="backButton" @click="emit('backButtonClick')" class="back-icon">
-      <img src="../../../public/icons/arrowW2.png" alt="back_img">
+      <img src="../../../public/icons/white-arrow.png" alt="back_img">
     </div>
     <ion-title>{{ text }}</ion-title>
   </ion-toolbar>
