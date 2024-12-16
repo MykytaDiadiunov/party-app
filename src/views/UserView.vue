@@ -12,12 +12,11 @@
       </div>
       <div class="user__parties">
         <div v-if="userParties && userParties?.items.length > 0" class="items__wrapper">
-          <app-party-item class="item" @click="openPartyModal(item)" v-for="item in userParties?.items" :key="item.id" :data="item"/>
+          <app-party-item class="item" @click="setSelectedParty(item)" v-for="item in userParties?.items" :key="item.id" :data="item"/>
         </div>
         <app-no-items v-else >{{ translate('NO_ITEMS_TEXTS.NO_PARTIES') }}</app-no-items>
       </div>
     </div>
-    <app-party-info-modal v-if="selectedParty" :current-user-is-owner="false" :is-open="selectedPartyModelIsOpen" :party="selectedParty" @modal-close="closePartyModal"/>
   </base-layout>
 </template>
 
@@ -25,7 +24,6 @@
 import BaseLayout from '@/layouts/BaseLayout.vue';
 import AppPartyItem from '@/components/parties-components/AppPartyItem.vue';
 import AppNoItems from '@/components/base-components/AppNoItems.vue';
-import AppPartyInfoModal from '@/components/parties-components/AppPartyInfoModal.vue';
 import AppUserAvatar from '@/components/users-components/AppUserAvatar.vue';
 import { onIonViewWillEnter } from '@ionic/vue';
 import { CurrentUser, ExistsInFavoritesResponse, PartiesResponse, Party } from '@/models';
@@ -45,7 +43,6 @@ const userIsFavorite = ref<ExistsInFavoritesResponse>()
 const userParties = ref<PartiesResponse>()
 
 const selectedParty = ref<Party>()
-const selectedPartyModelIsOpen = ref<boolean>(false)
 
 onIonViewWillEnter(async () => {
   if(route.params.id) {
@@ -69,13 +66,8 @@ async function unfollowUser() {
   }
 }
 
-function openPartyModal(party: Party) {
+function setSelectedParty(party: Party) {
   selectedParty.value = party
-  selectedPartyModelIsOpen.value = true
-}
-
-function closePartyModal() {
-  selectedPartyModelIsOpen.value = false
 }
 
 </script>

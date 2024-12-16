@@ -57,7 +57,9 @@ function clickHandler() {
 } 
 
 function openPartyModal() {
-  partyModalIsOpen.value = true
+  if (!partyModalIsOpen.value) {
+    partyModalIsOpen.value = true
+  }
 }
 
 function closePartyModal() {

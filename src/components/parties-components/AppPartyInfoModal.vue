@@ -1,6 +1,6 @@
 <template>
   <div class="modal__wrapper">
-    <ion-modal  @ionModalWillPresent="onPartyModelIsOpen" :is-open="isOpen">
+    <ion-modal  @ionModalWillPresent="onPartyModelIsOpen" :is-open="isOpen"  @didDismiss="emit('modalClose')" >
       <app-header @back-button-click="emit('modalClose')" :back-button="true" :text="party?.title"/>
       <ion-content>
         <div class="modal__content">
@@ -28,7 +28,7 @@
           </div>
           <div class="party__creator">
             <div class="creator-label">{{ translate('LABELS.CREATOR') }}</div>
-            <app-user-item :user="party.creatorId" @press="pressOnUserItem" />
+            <app-user-item :user="party.creatorId" @press="emit('modalClose')" />
           </div>
         </div>
       </ion-content>
@@ -44,7 +44,7 @@ import { IonModal, IonContent } from '@ionic/vue';
 import { useAppI18n } from '@/i18n';
 import { ExistsInFavoritesResponse, ExistsInPartyResponse, Party } from '@/models';
 import { IMG_BASE_URL } from '@/constants';
-import { getFormatedDate, getFormatedTime, requestService, routingService } from '@/services';
+import { getFormatedDate, getFormatedTime, requestService } from '@/services';
 const { translate } = useAppI18n()
 
 const requests = requestService()
@@ -83,10 +83,6 @@ async function leaveFromParty() {
     await requests.leaveFromParty(props.party.id)
     partyIsJoined.value = await requests.checkExistsInParty(props.party.id)
   }
-}
-
-function pressOnUserItem() {
-  emit('modalClose')
 }
 
 </script>
