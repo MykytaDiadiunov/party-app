@@ -5,18 +5,18 @@ import { useLangStore } from '@/stores/lang-store'
 export type Lang = 'en' 
 
 export interface LangInfo {
-   lang: Lang
-   name: string
-   native: string
-   localizeKey: string
+    lang: Lang
+    name: string
+    native: string
+    localizeKey: string
 }
 
 const defaultLang: Lang = 'en'
 
 const i18n = createI18n({
-   legacy: false,
-   locale: defaultLang,
-   messages: { en }
+    legacy: false,
+    locale: defaultLang,
+    messages: { en }
 })
 
 export const useAppI18n = () => {
@@ -42,9 +42,8 @@ export const useAppI18n = () => {
 
         for (const lang of navigator.languages) {
             const browserLang: Lang | null = languages.find((el: string) => lang.includes(el)) || null
-   
             if (browserLang) {
-               return browserLang
+                return browserLang
             }
         }
 
@@ -59,8 +58,8 @@ export const useAppI18n = () => {
 
     function getLangInfo(lang: Lang): LangInfo | null {
         return getLangsInfo().find((el: LangInfo) => el.lang === lang) || null
-     }
-  
+    }
+    
     async function init(): Promise<void> {
         try {
             const currentLang: Lang = getCurrentLang()

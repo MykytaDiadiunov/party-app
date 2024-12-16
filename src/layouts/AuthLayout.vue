@@ -9,7 +9,7 @@
         <img src="../../../public/bgs/pexels-wendywei-1190298.jpg" alt="bg">
       </div>
       <div ref="perentContent" class="slot__wrapper">
-        <slot/>
+        <slot></slot>
       </div>
     </ion-content>
   </ion-page>

@@ -3,7 +3,7 @@
     <app-header @back-button-click="emit('backButtonClick')" :back-button="backLayout" :text="headerText"/>
     <ion-content>
       <main class="main">
-        <slot/>
+        <slot></slot>
       </main>
     </ion-content>
   </ion-page>

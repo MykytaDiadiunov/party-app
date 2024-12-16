@@ -11,7 +11,7 @@ import type {
  
  export const apiService = () => {
 
-    const apiUrl: string = 'http://localhost:8081/api/v1'
+    const apiUrl: string = 'https://party-app-api.onrender.com/api/v1'
 
     const tokenStore = useTokenStore()
  

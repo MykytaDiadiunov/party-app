@@ -1,5 +1,5 @@
 <template>
-  <div v-if="party" class="modal__wrapper">
+  <div class="modal__wrapper">
     <ion-modal  @ionModalWillPresent="onPartyModelIsOpen" :is-open="isOpen">
       <app-header @back-button-click="emit('modalClose')" :back-button="true" :text="party?.title"/>
       <ion-content>

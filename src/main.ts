@@ -38,8 +38,8 @@ import i18n from '@/i18n'
 import '@/theme/variables.css';
 import '@/theme/styles.scss'
 
-import MyInput from '@/components/base-components/UI/AppInput.vue'
-import MyButton from '@/components/base-components/UI/AppButton.vue'
+import MyInput from '@/components/base-components/base-inputs/AppInput.vue'
+import MyButton from '@/components/base-components/base-inputs/AppButton.vue'
 
 const app = createApp(App)
   .use(IonicVue)
@@ -50,7 +50,7 @@ const app = createApp(App)
 app.component("my-input", MyInput)
 app.component("my-button", MyButton)
 
-
 router.isReady().then(() => {
   app.mount('#app');
 });
+

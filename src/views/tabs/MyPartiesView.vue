@@ -4,8 +4,8 @@
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
 
-    <div v-if="myParties && (myParties.total > 0)"  class="items__wrapper">
-      <app-party-item class="party__item" v-for="item in myParties.items" :data="item" :key="item.id"/>
+    <div v-if="myParties && (myParties.total > 0)" class="items__wrapper">
+      <app-party-item class="party__item" @on-click="openUpdatePartyModal(item)" :not-default-click="true" v-for="item in myParties.items" :data="item" :key="item.id"/>
     </div>
 
     <app-no-items v-else>
@@ -20,6 +20,7 @@
     </app-no-items>
 
     <app-create-party-modal @modal-close="closeCreatePartyModal" @party-created="onPartyCreated" :is-open="createPartyModalIsOpen"/>
+    <app-update-party-modal v-if="selectedPartyToUpdate" @modal-close="closeUpdatePartyModal" @party-updated="partyUpdated" :party="selectedPartyToUpdate" :is-open="updatePartyModalIsOpen"/>
 
     <ion-fab slot="fixed" vertical="bottom" horizontal="end">
       <ion-fab-button @click="openCreatePartyModal">
@@ -31,12 +32,13 @@
 
 <script setup lang="ts">
 import AppCreatePartyModal from '@/components/my-parties-components/AppCreatePartyModal.vue';
+import AppUpdatePartyModal from '@/components/my-parties-components/AppUpdatePartyModal.vue';
 import BaseLayout from '@/layouts/BaseLayout.vue';
 import AppNoItems from '@/components/base-components/AppNoItems.vue';
 import AppPartyItem from '@/components/parties-components/AppPartyItem.vue';
 import { useAppI18n } from '@/i18n'; 
 import { ref } from 'vue';
-import { CurrentUser, PartiesResponse } from '@/models';
+import { CurrentUser, PartiesResponse, Party } from '@/models';
 import { onIonViewWillEnter, IonRefresher, IonRefresherContent, IonFab, IonFabButton, IonIcon } from '@ionic/vue';
 import { add } from 'ionicons/icons';
 import { requestService } from '@/services';
@@ -46,13 +48,15 @@ const { translate } = useAppI18n()
 
 const request = requestService()
 
-const userStore = useUserStore()
-const { getCurrentUserData, populateUser } = userStore
+const { getCurrentUserData, populateUser } = useUserStore()
 
 const myParties = ref<PartiesResponse>()
 const currentUser = ref<CurrentUser | null>(null)
 
 const createPartyModalIsOpen = ref<boolean>(false)
+const updatePartyModalIsOpen = ref<boolean>(false)
+
+const selectedPartyToUpdate = ref<Party | null>(null)
 
 onIonViewWillEnter(async () => {
   try {
@@ -82,6 +86,7 @@ async function handleRefresh(event: any) {
 
 async function onPartyCreated() {
   await populateUser()
+  await partyUpdatedOrCreated()
   createPartyModalIsOpen.value = false
 }
 
@@ -89,8 +94,32 @@ function openCreatePartyModal() {
   createPartyModalIsOpen.value = true
 }
 
-function closeCreatePartyModal() {
+async function closeCreatePartyModal() {
   createPartyModalIsOpen.value = false
+}
+
+function openUpdatePartyModal(party: Party) {
+  selectedPartyToUpdate.value = party
+  setTimeout(() => {
+    updatePartyModalIsOpen.value = true
+  }, 0)
+}
+
+function closeUpdatePartyModal() {
+  updatePartyModalIsOpen.value = false
+  setTimeout(() => {
+    selectedPartyToUpdate.value = null
+  }, 0)
+}
+
+async function partyUpdated() {
+  await partyUpdatedOrCreated()
+}
+
+async function partyUpdatedOrCreated() {
+  if (currentUser.value) {
+    myParties.value = await request.getPartiesByCreatorId(currentUser.value.id, 1)
+  }
 }
 
 </script>
