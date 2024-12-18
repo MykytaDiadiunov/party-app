@@ -96,7 +96,6 @@ const emit = defineEmits<{
 
 async function onPartyBeforeModelIsOpen() {
   partyWithMembers.value = await request.getPartyById(props.party.id)
-  console.log(partyWithMembers.value)
 }
 
 async function submit(newPartyBody: CreateParty) {

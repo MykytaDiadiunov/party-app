@@ -1,1 +1,1 @@
-export const IMG_BASE_URL: string = 'https://party-app-api.onrender.com/static/'
+export const IMG_BASE_URL: string = ''
