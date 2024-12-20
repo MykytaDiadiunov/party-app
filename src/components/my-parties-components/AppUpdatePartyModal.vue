@@ -51,13 +51,15 @@ import AppNoItems from '../base-components/AppNoItems.vue';
 import { useAppI18n } from '@/i18n';
 import { trash, people } from 'ionicons/icons';
 import { CreateParty, Party, PartyWithMembers } from '@/models';
-import { createPartyModelToUpdatePartyModel, requestService, closeAllModals } from '@/services';
+import { createPartyModelToUpdatePartyModel, requestService, closeAllModals, toastService } from '@/services';
 import { IonContent, IonModal, IonLabel, IonSegment, IonSegmentButton, IonAlert, AlertButton } from '@ionic/vue';
 import { defineEmits, defineProps, ref } from 'vue'
+import { useToast } from 'vue-toastification';
 
 const { translate } = useAppI18n()
 
 const request = requestService()
+const toast = toastService()
 
 enum Segments {
   Details = 'details',
@@ -96,13 +98,19 @@ const emit = defineEmits<{
 
 async function onPartyBeforeModelIsOpen() {
   partyWithMembers.value = await request.getPartyById(props.party.id)
-  console.log(partyWithMembers.value)
 }
 
 async function submit(newPartyBody: CreateParty) {
-  const updateModel = createPartyModelToUpdatePartyModel(newPartyBody)
-  await request.udapteParty(props.party.id, updateModel)
-  emit('partyUpdated')
+  try {
+    const updateModel = createPartyModelToUpdatePartyModel(newPartyBody)
+    await request.udapteParty(props.party.id, updateModel)
+    emit('partyUpdated')
+    toast.showSuccess(`${translate("TOASTS.PARTY_UPDATED")}!`)
+  } catch(e: any) {
+    console.log(e)
+    toast.showError(e)
+  }
+
 }
 
 function toggleDeleteAlertIsOpen() {

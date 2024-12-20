@@ -1,8 +1,8 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'party-app',
+  appId: 'com.mykyta.app',
+  appName: 'Party',
   webDir: 'dist'
 };
 

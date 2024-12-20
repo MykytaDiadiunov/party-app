@@ -67,5 +67,8 @@
     "HEADER": {
         "NEW_PARTY": "New Party",
         "UPDATE_PARTY": "Update Party"
+    },
+    "TOASTS": {
+        "PARTY_UPDATED": "Party updated"
     }
 }   

@@ -33,6 +33,8 @@ import '@ionic/vue/css/display.css';
 // import '@ionic/vue/css/palettes/dark.system.css';
 
 import i18n from '@/i18n'
+import Toast, { POSITION } from "vue-toastification";
+import 'vue-toastification/dist/index.css'
 
 /* Theme variables */
 import '@/theme/variables.css';
@@ -46,6 +48,13 @@ const app = createApp(App)
   .use(router)
   .use(createPinia())
   .use(i18n as any)
+  .use(Toast, {
+    position: POSITION.TOP_RIGHT,
+    timeout: 5000,
+    closeOnClick: true,
+    maxToasts: 3,
+    containerClassName: ['toast-dialog-container'],
+  });
 
 app.component("my-input", MyInput)
 app.component("my-button", MyButton)
