@@ -4,7 +4,6 @@
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
     <div v-if="parties?.items && parties.items.length > 0" class="users__wrapper">
-      <!-- <app-user-item @click="routToCreatorProfile(user.id)" class="item" v-for="user in favUsers?.users" background-color="#F8F8F8" :user="user" :key="user.id"/> -->
       <app-party-item class="party__item" v-for="item in parties.items" :data="item" :key="item.id"/>
     </div>
     <app-no-items v-else>
@@ -15,7 +14,6 @@
 
 <script setup lang="ts">
 import BaseLayout from '@/layouts/BaseLayout.vue';
-import AppUserItem from '@/components/users-components/AppUserItem.vue';
 import AppPartyItem from '@/components/parties-components/AppPartyItem.vue';
 import AppNoItems from '@/components/base-components/AppNoItems.vue';
 import { useAppI18n } from '@/i18n'; 

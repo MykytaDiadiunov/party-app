@@ -3,6 +3,13 @@
 $poppins-font: "Poppins", sans-serif;
 $montserat-font: "Montserrat", sans-serif;
 
+.Vue-Toastification__container.toast-dialog-container {
+    width: 300px;
+    left: auto;
+    right: 30px;
+    top: 70px;
+}
+
 * {
     color: #000;
     font-family: $poppins-font;

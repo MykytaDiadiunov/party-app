@@ -62,7 +62,7 @@ import { useAppI18n, Lang, LangInfo } from '@/i18n';
 import { useUserStore } from '@/stores';
 import { CurrentUser, FavoritesResponse } from '@/models';
 import { closeAllModals, requestService } from '@/services'
-import { onIonViewWillEnter, AlertButton, IonRadioGroup, IonRadio, IonItem } from '@ionic/vue';
+import { onIonViewWillEnter, AlertButton, IonRadioGroup, IonRadio, IonItem, IonAlert } from '@ionic/vue';
 import { ref } from 'vue';
 
 const request = requestService()
